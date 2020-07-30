@@ -3,7 +3,8 @@ fun main() {
     val temperature = getTemperature(townName)
 
     val townWeather = TownWeather(townName, temperature)
-    println("В городе $townName сейчас " + getWeatherResult(townWeather) + "!")
+
+    printTownWeatherResult (townWeather)
 }
 
 private fun getTemperature(townName: String): Int {
@@ -14,17 +15,26 @@ private fun getTemperature(townName: String): Int {
 }
 
 private fun getTownName(): String {
+    var townName: String
     println(
         "Привет! В каком городе ты находишься?"
     )
-    return readLine() ?: throw error("Укажите название Вашего города!")
+    do {
+        townName = readLine() ?: throw error("Укажите название Вашего города!")
+    } while (townName.length == 0)
+
+    return townName
 }
 
-fun getWeatherResult(townWeather: TownWeather): String {
-    return when (townWeather.temperature) {
+fun getWeatherResult(temperature: Int): String {
+    return when (temperature) {
         in -50..14 -> "холодно"
         in 15..24 -> "нормально"
         in 25..50 -> "жарко"
         else -> "катастрофа"
     }
+}
+
+fun printTownWeatherResult (townWeather: TownWeather) {
+    println("В городе ${townWeather.townName} сейчас " + getWeatherResult(townWeather.temperature) + "!")
 }
